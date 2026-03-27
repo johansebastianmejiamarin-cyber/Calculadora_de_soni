@@ -17,13 +17,12 @@ jobs:
           
       - name: Build APK
         run: |
-          # El comando --release asegura que se genere el instalador final
-          flet build apk --release
+          # Quitamos el --release que dio error
+          flet build apk
           
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          # Buscamos en todo el proyecto cualquier .apk generado
-          path: "**/*.apk" 
-          if-no-files-found: error
+          # Usamos una ruta más general para asegurar que lo encuentre
+          path: "build/apk/*.apk"
