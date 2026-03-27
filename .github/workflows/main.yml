@@ -7,22 +7,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - uses: subosito/flutter-action@v2
+      # Configuramos una versión estable de Python
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          channel: 'stable'
+          python-version: '3.11'
           
       - name: Install dependencies
         run: |
-          pip install flet holidays
+          pip install flet
           
       - name: Build APK
+        # Flet se encargará de descargar la versión exacta de Flutter que necesita
         run: |
-          # Quitamos el --release que dio error
           flet build apk
           
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          # Usamos una ruta más general para asegurar que lo encuentre
-          path: "build/apk/*.apk"
+          path: build/apk/*.apk
