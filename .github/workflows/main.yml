@@ -1,22 +1,26 @@
 name: Build Android APK
-on: [push] # Se ejecuta cada vez que subes un cambio
+on: [push]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4 # Actualizado a v4
+      
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
+          
       - name: Install Python dependencies
         run: |
           pip install flet holidays
+          
       - name: Build APK
         run: |
           flet build apk
+          
       - name: Upload APK
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4 # Actualizado a v4 (Esto quita el error)
         with:
           name: app-release
           path: build/apk/app-release.apk
