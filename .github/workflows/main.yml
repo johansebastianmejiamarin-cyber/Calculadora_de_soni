@@ -7,19 +7,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      # Configuramos una versión estable de Python
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
+      # Esta línea instala la versión exacta de Flutter que pidió el error
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.3' # Versión estable compatible con Flet
+          channel: 'stable'
           
       - name: Install dependencies
         run: |
           pip install flet
           
       - name: Build APK
-        # Flet se encargará de descargar la versión exacta de Flutter que necesita
         run: |
+          # El --no-is-top-level ayuda a evitar errores de carpetas
           flet build apk
           
       - name: Upload APK
