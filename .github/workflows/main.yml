@@ -11,17 +11,19 @@ jobs:
         with:
           channel: 'stable'
           
-      - name: Install Python dependencies
+      - name: Install dependencies
         run: |
           pip install flet holidays
           
       - name: Build APK
         run: |
-          flet build apk
+          # El comando --release asegura que se genere el instalador final
+          flet build apk --release
           
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          # Este cambio busca cualquier archivo .apk que se haya generado
-          path: build/apk/*.apk 
+          # Buscamos en todo el proyecto cualquier .apk generado
+          path: "**/*.apk" 
+          if-no-files-found: error
